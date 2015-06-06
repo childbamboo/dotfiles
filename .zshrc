@@ -23,7 +23,7 @@ SAVEHIST=1000000
 # PROMPT="%~ %# "
 # 2行表示
 PROMPT="
-%{${fg[yellow]}%}[%n@%m]%{${reset_color}%} 
+%{${fg[green]}%}[%n@%m]%{${reset_color}%} 
 %~
 %# "
 
@@ -119,7 +119,7 @@ bindkey '^R' history-incremental-pattern-search-backward
 ########################################
 # エイリアス
 
-alias la='ls -a'
+alias la='ls -la'
 alias ll='ls -l'
 
 alias rm='rm -i'
