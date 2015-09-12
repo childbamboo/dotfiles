@@ -36,29 +36,31 @@ select-word-style default
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
 
-########################################
+# -----------------------------------------------
 # 補完
-# 補完機能を有効にする
-autoload -Uz compinit
-compinit
+## zsh-completions
+### cd ~/.zsh/ && git clone git://github.com/zsh-users/zsh-completions.git
+if [ -d ${HOME}/.zsh/zsh-completions/src ] ; then
+   fpath=(${HOME}/.zsh/zsh-completions/src $fpath)
+fi
 
-# 補完で小文字でも大文字にマッチさせる
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+## 補完で小文字でも大文字にマッチさせる
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} r:|[-_.]=**'
+zstyle ':completion:*:processes' menu yes select=2
 
-# ../ の後は今いるディレクトリを補完しない
+## ../ の後は今いるディレクトリを補完しない
 zstyle ':completion:*' ignore-parents parent pwd ..
 
-# sudo の後ろでコマンド名を補完する
+## sudo の後ろでコマンド名を補完する
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
                    /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
-# ps コマンドのプロセス名補完
+## ps コマンドのプロセス名補完
 zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
 
-# https://github.com/zsh-users/zsh-completions
-if [ -e /usr/local/share/zsh-completions ]; then
-  fpath=(/usr/local/share/zsh-completions $fpath)
-fi
+## 補完機能を有効にする
+autoload -Uz compinit
+compinit
 
 ########################################
 # vcs_info
@@ -73,7 +75,6 @@ function _update_vcs_info_msg() {
     RPROMPT="${vcs_info_msg_0_}"
 }
 add-zsh-hook precmd _update_vcs_info_msg
-
 
 ########################################
 # オプション
@@ -94,6 +95,7 @@ setopt interactive_comments
 
 # ディレクトリ名だけでcdする
 setopt auto_cd
+setopt cdable_vars
 
 # cd したら自動的にpushdする
 setopt auto_pushd
@@ -107,20 +109,33 @@ setopt hist_no_store        # historyコマンドは履歴に登録しない
 setopt hist_ignore_space    # スペースから始まるコマンド行はヒストリに残さない
 setopt hist_reduce_blanks   # ヒストリに保存するときに余分なスペースを削除する
 
+function peco-select-history() {
+  local tac
+  if which tac > /dev/null; then
+    tac="tac"
+  else
+    tac="tail -r"
+  fi
+  BUFFER=$(\history -n 1 | \
+  eval $tac | \
+  peco --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle clear-screen
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+
 # 高機能なワイルドカード展開を使用する
 setopt extended_glob
 
 ########################################
 # キーバインド
 
-# ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
-bindkey '^R' history-incremental-pattern-search-backward
-
 ########################################
 # エイリアス
 
 alias la='ls -la'
-alias ll='ls -l'
+alias ll='ls -la'
 
 alias rm='rm -i'
 alias cp='cp -i'
@@ -148,7 +163,39 @@ elif which putclip >/dev/null 2>&1 ; then
     alias -g C='| putclip'
 fi
 
+# auto cd
+setopt auto_cd
+function chpwd() { ls -la }
 
+fpath=(~/.zsh/anyframe(N-/) $fpath)
+autoload -Uz anyframe-init
+anyframe-init
+
+# antigen
+if [[ -f ~/.zsh/antigen/antigen.zsh ]]; then
+  source ~/.zsh/antigen/antigen.zsh
+  antigen bundle mollifier/anyframe # 追加
+  antigen apply
+fi
+
+bindkey '^x^d' anyframe-widget-cdr
+bindkey '^x^b' anyframe-widget-checkout-git-branch
+bindkey '^x^r' anyframe-widget-execute-history
+bindkey '^x^i' anyframe-widget-put-history
+bindkey '^x^g' anyframe-widget-cd-ghq-repository
+bindkey '^x^k' anyframe-widget-kill
+bindkey '^x^e' anyframe-widget-insert-git-branch
+
+# cdr, add-zsh-hook を有効にする
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook add-zsh-hook chpwd chpwd_recent_dirs
+
+# cdr の設定
+zstyle ':completion:*' recent-dirs-insert both
+zstyle ':completion:*:*:cdr:*:*' menu selection
+zstyle ':chpwd:*' recent-dirs-max 500
+zstyle ':chpwd:*' recent-dirs-default true
+zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/shell/chpwd-recent-dirs"
+zstyle ':chpwd:*' recent-dirs-pushd true
 
 ########################################
 # OS 別の設定
