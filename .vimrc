@@ -21,6 +21,7 @@ NeoBundle 'nanotech/jellybeans.vim'
 " filer
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'ctrlpvim/ctrlp.vim'
 
 " code check
 NeoBundle 'kchmck/vim-coffee-script'
@@ -28,10 +29,12 @@ NeoBundle 'tpope/vim-endwise.git'
 
 " rails
 NeoBundle 'tpope/vim-rails'
-NeoBundle 'basyura/unite-rails'
 NeoBundle 'ujihisa/unite-rake'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'ruby-matchit'
+
+" slim
+NeoBundle 'slim-template/vim-slim'
 
 " vimrc に記述されたプラグインでインストールされていないものがないかチェックする
 NeoBundleCheck
@@ -78,6 +81,7 @@ set clipboard+=unnamed
 let g:unite_enable_start_insert = 1
 let g:unite_enable_split_vertically = 0
 let g:unite_winwidth = 40
+nnoremap <silent> ,ra :<C-u>Unite rails/app<CR>
 nnoremap <silent> ,rc :<C-u>Unite rails/controller<CR>
 nnoremap <silent> ,rm :<C-u>Unite rails/model<CR>
 nnoremap <silent> ,rv :<C-u>Unite rails/view<CR>
@@ -87,8 +91,3 @@ nnoremap <silent> ,rj :<C-u>Unite rails/javascript<CR>
 nnoremap <silent> ,rr :<C-u>Unite rails/route<CR>
 nnoremap <silent> ,rg :<C-u>Unite rails/gemfile<CR>
 nnoremap <silent> ,rt :<C-u>Unite rails/spec<CR>
-
-noremap <S-h> ^
-noremap <S-j> }
-noremap <S-k> {
-noremap <S-l> $

@@ -212,3 +212,11 @@ case ${OSTYPE} in
 esac
 
 # vim:set ft=zsh:
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/KeitaSasako/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/KeitaSasako/google-cloud-sdk/completion.zsh.inc'
+eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/bin:$PATH"
