@@ -1,6 +1,16 @@
-[push]
-	default = matching
 [user]
-	name = childbamboo
+	name = keita sasako
+	email = childbamboo1980@gmail.com
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore_global
+[merge]
+	tool = vimdiff
 [color]
 	ui = auto
+[alias]
+	st = status
+	ci = commit
+	co = checkout
+	br = branch
+	rb = rebase

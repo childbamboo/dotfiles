@@ -20,3 +20,8 @@ touch $HOME/.zsh_history
 echo "# vim setting"
 
 ln -s $DOTFILEDIR/.vimrc $HOME/.vimrc
+
+echo "# git setting"
+
+ln -s $DOTFILEDIR/.gitconfig $HOME/.gitconfig
+ln -s $DOTFILEDIR/.gitignore_global $HOME/.gitignore_global
