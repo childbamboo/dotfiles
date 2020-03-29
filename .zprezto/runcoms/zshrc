@@ -37,12 +37,10 @@ select-word-style default
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
 
-# -----------------------------------------------
-# 補完
-## zsh-completions
-### cd ~/.zsh/ && git clone git://github.com/zsh-users/zsh-completions.git
-if [ -d ${HOME}/.zsh/zsh-completions/src ] ; then
-   fpath=(${HOME}/.zsh/zsh-completions/src $fpath)
+# zsh-completions
+## cd ~/.zsh/ && git clone git://github.com/zsh-users/zsh-completions.git
+if [ -d ${HOME}/.zsh/completion ] ; then
+   fpath=(${HOME}/.zsh/completion $fpath)
 fi
 
 ## 補完で小文字でも大文字にマッチさせる
@@ -63,7 +61,6 @@ zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
 autoload -Uz compinit
 compinit
 
-########################################
 # vcs_info
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
@@ -77,40 +74,46 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
-########################################
-# オプション
-# 日本語ファイル名を表示可能にする
+## git command completion
+fpath=(~/.zsh/completion $fpath)
+autoload -Uz compinit && compinit -i
+
+# options
+
+## enable showing multi byte language
 setopt print_eight_bit
 
-# beep を無効にする
+## disable beep 
 setopt no_beep
 
-# フローコントロールを無効にする
+## disable flow control by Ctrl+S/Ctrl+Q 
 setopt no_flow_control
 
-# Ctrl+Dでzshを終了しない
+## disable stop by Ctrl+D
 setopt ignore_eof
 
-# '#' 以降をコメントとして扱う
+## '#' 以降をコメントとして扱う
 setopt interactive_comments
 
-# ディレクトリ名だけでcdする
+## ディレクトリ名だけでcdする
 setopt auto_cd
 setopt cdable_vars
 
-# cd したら自動的にpushdする
+## cd したら自動的にpushdする
 setopt auto_pushd
-# 重複したディレクトリを追加しない
+## 重複したディレクトリを追加しない
 setopt pushd_ignore_dups
 
-# history
+## history
 setopt share_history        # 同時に起動したzshの間でヒストリを共有する
 setopt hist_ignore_all_dups # 同じコマンドをヒストリに残さない
 setopt hist_no_store        # historyコマンドは履歴に登録しない
 setopt hist_ignore_space    # スペースから始まるコマンド行はヒストリに残さない
 setopt hist_reduce_blanks   # ヒストリに保存するときに余分なスペースを削除する
 
-# peco setting of histories
+# peco setting
+
+## histories
 function peco-select-history() {
   local tac
   if which tac > /dev/null; then
@@ -127,7 +130,7 @@ function peco-select-history() {
 zle -N peco-select-history
 bindkey '^r' peco-select-history
 
-# peco setting of ghq
+## ghq
 function peco-ghq-look () {
   local selected_file=$(ghq list --full-path | peco --query "$LBUFFER")
   if [ -n "$selected_file" ]; then
