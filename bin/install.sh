@@ -27,3 +27,15 @@ echo "# git setting"
 
 ln -s $DOTFILEDIR/.gitconfig $HOME/.gitconfig
 ln -s $DOTFILEDIR/.gitignore_global $HOME/.gitignore_global
+
+echo "# zsh completion setting"
+
+mkdir -p $HOME/.zsh/completion
+
+echo "## git command completion"
+
+curl -o $HOME/.zsh/completion/_git https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh
+
+echo "## docker command completion"
+
+curl -o $HOME/.zsh/completion/_docker https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker
