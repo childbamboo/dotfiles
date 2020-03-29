@@ -110,6 +110,7 @@ setopt hist_no_store        # historyコマンドは履歴に登録しない
 setopt hist_ignore_space    # スペースから始まるコマンド行はヒストリに残さない
 setopt hist_reduce_blanks   # ヒストリに保存するときに余分なスペースを削除する
 
+# peco setting of histories
 function peco-select-history() {
   local tac
   if which tac > /dev/null; then
@@ -125,6 +126,20 @@ function peco-select-history() {
 }
 zle -N peco-select-history
 bindkey '^r' peco-select-history
+
+# peco setting of ghq
+function peco-ghq-look () {
+  local selected_file=$(ghq list --full-path | peco --query "$LBUFFER")
+  if [ -n "$selected_file" ]; then
+    if [ -t 1 ]; then
+      echo ${selected_file}
+      cd ${selected_file}
+      pwd
+    fi
+  fi
+}
+zle -N peco-ghq-look
+bindkey '^G' peco-ghq-look
 
 # 高機能なワイルドカード展開を使用する
 setopt extended_glob

@@ -14,3 +14,5 @@
 	co = checkout
 	br = branch
 	rb = rebase
+[ghq]
+  root = ~/ghq
