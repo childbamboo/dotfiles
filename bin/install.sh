@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DOTFILEDIR=$HOME/dotfiles
+
 echo "# zsh setting"
 
 echo "## change defaullt shell zsh"
