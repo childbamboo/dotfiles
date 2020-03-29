@@ -33,8 +33,17 @@ NeoBundle 'ujihisa/unite-rake'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'ruby-matchit'
 
+" vuejs
+NeoBundle 'posva/vim-vue'
+
+" typescript
+NeoBundle 'leafgarland/typescript-vim'
+
 " slim
 NeoBundle 'slim-template/vim-slim'
+
+" iceberg
+NeoBundle 'cocopon/iceberg.vim'
 
 " vimrc に記述されたプラグインでインストールされていないものがないかチェックする
 NeoBundleCheck
@@ -49,7 +58,7 @@ set softtabstop=2
 set expandtab
 
 set encoding=utf-8
-set fileencoding=utf-8
+set fileencodings=utf-8,sjis,euc-jp,latin1
 set ignorecase
 set smartcase
 set nohlsearch
@@ -91,3 +100,7 @@ nnoremap <silent> ,rj :<C-u>Unite rails/javascript<CR>
 nnoremap <silent> ,rr :<C-u>Unite rails/route<CR>
 nnoremap <silent> ,rg :<C-u>Unite rails/gemfile<CR>
 nnoremap <silent> ,rt :<C-u>Unite rails/spec<CR>
+
+" escが遠いので代用する。
+noremap <C-j> <esc>
+noremap! <C-j> <esc>
