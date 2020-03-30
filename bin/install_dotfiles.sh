@@ -40,6 +40,8 @@ rm $HOME/.gitignore_global
 ln -s $DOTFILEDIR/.gitconfig $HOME/.gitconfig
 ln -s $DOTFILEDIR/.gitignore_global $HOME/.gitignore_global
 
+mkdir -p $HOME/ghq
+
 echo "# zsh completion setting"
 
 mkdir -p $HOME/.zsh/completion
