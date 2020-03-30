@@ -11,57 +11,57 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+## lang
 export LANG=ja_JP.UTF-8
 
+## enable showing multi byte language
+setopt print_eight_bit
+
+## color
 autoload -Uz colors
 colors
 
 bindkey -e
 
+## history
 HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
+setopt hist_no_store
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_reduce_blanks
+setopt share_history
 
-# prompt
+## prompt
 PROMPT="
 %{${fg[green]}%}[%n@%m]%{${reset_color}%} 
 %~
 %# "
 
-# 単語の区切り文字を指定する
+## word style
 autoload -Uz select-word-style
 select-word-style default
-
-# ここで指定した文字は単語区切りとみなされる
-# / も区切りと扱うので、^W でディレクトリ１つ分を削除できる
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
 
-# zsh-completions
-## cd ~/.zsh/ && git clone git://github.com/zsh-users/zsh-completions.git
-if [ -d ${HOME}/.zsh/completion ] ; then
-   fpath=(${HOME}/.zsh/completion $fpath)
-fi
+## completion
 
-## 補完で小文字でも大文字にマッチさせる
+### zsh-completions
+if [ -e /usr/local/share/zsh-completions ]; then
+  fpath=(/usr/local/share/zsh-completions $fpath)
+fi
+autoload -U compinit
+compinit -u
+
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} r:|[-_.]=**'
 zstyle ':completion:*:processes' menu yes select=2
-
-## ../ の後は今いるディレクトリを補完しない
 zstyle ':completion:*' ignore-parents parent pwd ..
-
-## sudo の後ろでコマンド名を補完する
-zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
-                   /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
-
-## ps コマンドのプロセス名補完
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
 
-## 補完機能を有効にする
-autoload -Uz compinit
-compinit
-
-# vcs_info
+## vcs_info setting
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 
@@ -69,19 +69,10 @@ zstyle ':vcs_info:*' formats '%F{green}(%s)-[%b]%f'
 zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
 
 function _update_vcs_info_msg() {
-    LANG=en_US.UTF-8 vcs_info
-    RPROMPT="${vcs_info_msg_0_}"
+  LANG=en_US.UTF-8 vcs_info
+  RPROMPT="${vcs_info_msg_0_}"
 }
 add-zsh-hook precmd _update_vcs_info_msg
-
-## git command completion
-fpath=(~/.zsh/completion $fpath)
-autoload -Uz compinit && compinit -i
-
-# options
-
-## enable showing multi byte language
-setopt print_eight_bit
 
 ## disable beep 
 setopt no_beep
@@ -103,13 +94,6 @@ setopt cdable_vars
 setopt auto_pushd
 ## 重複したディレクトリを追加しない
 setopt pushd_ignore_dups
-
-## history
-setopt share_history        # 同時に起動したzshの間でヒストリを共有する
-setopt hist_ignore_all_dups # 同じコマンドをヒストリに残さない
-setopt hist_no_store        # historyコマンドは履歴に登録しない
-setopt hist_ignore_space    # スペースから始まるコマンド行はヒストリに残さない
-setopt hist_reduce_blanks   # ヒストリに保存するときに余分なスペースを削除する
 
 # peco setting
 
@@ -162,13 +146,6 @@ alias mv='mv -i'
 setopt auto_cd
 function chpwd() { ls -la }
 
-# antigen
-if [[ -f ~/.zsh/antigen/antigen.zsh ]]; then
-  source ~/.zsh/antigen/antigen.zsh
-  antigen bundle mollifier/anyframe # 追加
-  antigen apply
-fi
-
 # enable cdr, add-zsh-hook
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook add-zsh-hook chpwd chpwd_recent_dirs
 
@@ -182,7 +159,7 @@ zstyle ':chpwd:*' recent-dirs-pushd true
 
 # vim:set ft=zsh:
 
-# rbenv setting
+# xxenv setting
 eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/bin:$PATH"
 
