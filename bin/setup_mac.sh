@@ -17,4 +17,4 @@ echo "## brew bundle"
 brew bundle --file $HOME/dotfiles/Brewfile
 
 echo "## brew bundle"
-$HOME/dotfiles/bin/install_dotfile.sh
+$HOME/dotfiles/bin/install_dotfiles.sh
