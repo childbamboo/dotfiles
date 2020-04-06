@@ -25,6 +25,8 @@ cask "google-japanese-ime"
 cask "skype"
 cask "visual-studio-code"
 cask "zoomus"
+cask "inkdrop"
+cask "karabiner-elements"
 
 mas "Bear", id: 1091189122
 mas "Keynote", id: 409183694
