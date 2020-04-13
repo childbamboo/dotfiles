@@ -160,13 +160,13 @@ zstyle ':chpwd:*' recent-dirs-pushd true
 # vim:set ft=zsh:
 
 # xxenv setting
-eval "$(rbenv init -)"
+## rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PATH="$HOME/.rbenv/bin:$PATH"
 
+## nodenv
+if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
+
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-if which plenv > /dev/null; then eval "$(plenv init -)"; fi
-if which goenv > /dev/null; then eval "$(goenv init -)"; fi
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-if which ndenv > /dev/null; then eval "$(ndenv init -)"; fi
 
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
