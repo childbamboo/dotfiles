@@ -1,0 +1,31 @@
+# Starship Configuration
+# https://starship.rs/config/
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$python\
+$line_break\
+$character"""
+
+[directory]
+truncation_length = 3
+truncate_to_repo = false
+
+[git_branch]
+symbol = " "
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+
+[nodejs]
+symbol = " "
+
+[python]
+symbol = " "
+
+[character]
+success_symbol = "[❯](green)"
+error_symbol = "[❯](red)"

@@ -1,36 +1,41 @@
-basepath=$(cd $(dirname $0);pwd)
+#!/bin/bash
+set -e
 
-# symlink dotfiles into ~files=.*
-ln -sf $basepath/.zprezto ~
-ln -sf $basepath/.zprezto/runcoms/zlogin ~/.zlogin
-ln -sf $basepath/.zprezto/runcoms/zlogout ~/.zlogout
-ln -sf $basepath/.zprezto/runcoms/zpreztorc ~/.zpreztorc
-ln -sf $basepath/.zprezto/runcoms/zprofile ~/.zprofile
-ln -sf $basepath/.zprezto/runcoms/zshenv ~/.zshenv
-ln -sf $basepath/.zprezto/runcoms/zshrc ~/.zshrc
+cd "$(dirname "$0")"
 
-#setopt $EXTENDED_GLOB
-#for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N) ; do
-#  echo "ooooooooooo"
-#  ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-#done
+echo "=== dotfiles setup ==="
 
-#files=.*
-#for file in $files
-#do
-#  if [ ! -d $file -a $file != "." -a $file != ".." \
-#         -a $file != ".git" -a $file != ".gitconfig" ] ; then
-#    ln -sf $basepath/$file ~
-#  fi
-#done
+# Homebrew がなければインストール
+if ! command -v brew &> /dev/null; then
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# symlink zsh configuration files into ~/.zsh
-#if [ ! -d ~/.zsh ] ; then
-#  mkdir ~/.zsh
-#fi
-#for file in .zsh/.*
-#do
-#  if [ $file != "." -a $file != ".." -a $file != ".git" ] ; then
-#    ln -sf $basepath/$file ~/.zsh/
-#  fi
-#done
+    # Homebrew のパスを設定
+    if [[ -f /opt/homebrew/bin/brew ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    elif [[ -f /usr/local/bin/brew ]]; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+fi
+
+# stow がなければインストール
+if ! command -v stow &> /dev/null; then
+    echo "Installing stow..."
+    brew install stow
+fi
+
+# パッケージインストール
+echo "Installing packages from Brewfile..."
+brew bundle
+
+# 必要なディレクトリを作成
+mkdir -p ~/.config
+
+# stow で dotfiles をリンク
+echo "Linking dotfiles with stow..."
+stow -v zsh git vim starship
+
+echo ""
+echo "=== Setup complete! ==="
+echo ""
+echo "Please restart your terminal or run: source ~/.zshrc"
