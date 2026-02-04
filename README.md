@@ -26,6 +26,7 @@ dotfiles/
 ├── git/.gitconfig                # Git 設定
 ├── vim/.vimrc                    # Vim 設定（最小限）
 ├── starship/.config/starship.toml # プロンプト設定
+├── claude/.claude/CLAUDE.md      # Claude Code 設定
 ├── Brewfile                      # Homebrew パッケージ
 ├── setup.sh                      # セットアップスクリプト
 └── docs/                         # ドキュメント
@@ -45,7 +46,7 @@ stow starship     # ~/.config/starship.toml を作成
 stow -D zsh
 
 # 全部まとめて
-stow zsh git vim starship
+stow zsh git vim starship claude
 ```
 
 ## Design
