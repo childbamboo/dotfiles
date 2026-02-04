@@ -33,7 +33,7 @@ mkdir -p ~/.config
 
 # stow で dotfiles をリンク
 echo "Linking dotfiles with stow..."
-stow -v zsh git vim starship
+stow -v zsh git vim starship claude
 
 echo ""
 echo "=== Setup complete! ==="
