@@ -1,0 +1,25 @@
+[user]
+    name = childbamboo
+    email = childbamboo1980@gmail.com
+[push]
+    default = current
+[pull]
+    rebase = true
+[init]
+    defaultBranch = main
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    lg = log --oneline --graph --decorate
+    df = diff
+    cm = commit
+[core]
+    editor = vim
+    autocrlf = input
+[color]
+    ui = auto
+[merge]
+    ff = false
+[fetch]
+    prune = true

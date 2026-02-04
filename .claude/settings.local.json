@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/kesasako/ghq/github.com/childbamboo/dotfiles log --oneline -10)",
+      "Bash(test:*)",
+      "Bash(git checkout:*)",
+      "Bash(git stash:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "context7"
+  ]
+}
