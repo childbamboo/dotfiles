@@ -113,7 +113,14 @@ fi
 # fzf
 # ============================================
 if command -v fzf &> /dev/null; then
-    source <(fzf --zsh)
+    # fzf 0.48+ supports --zsh option
+    if fzf --zsh &>/dev/null; then
+        source <(fzf --zsh)
+    # Linux (apt): use bundled scripts
+    elif [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+        source /usr/share/doc/fzf/examples/key-bindings.zsh
+        [[ -f /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
+    fi
     export FZF_DEFAULT_OPTS='--height 40% --reverse'
 fi
 
