@@ -81,6 +81,14 @@ else
     echo "zoxide: already installed"
 fi
 
+# Claude CLI
+if ! command -v claude &> /dev/null; then
+    echo "Installing Claude CLI..."
+    curl -fsSL https://claude.ai/install.sh | sh
+else
+    echo "claude: already installed"
+fi
+
 # GitHub CLI
 if ! command -v gh &> /dev/null; then
     echo "Installing GitHub CLI..."

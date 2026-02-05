@@ -4,6 +4,11 @@
 export LANG=ja_JP.UTF-8
 export EDITOR=vim
 
+# ~/.local/bin をパスに追加（Claude CLI 等）
+if [[ -d "$HOME/.local/bin" ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
 # ============================================
 # Homebrew
 # ============================================

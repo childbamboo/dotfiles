@@ -49,7 +49,14 @@ case "$OS" in
     Linux)
         # === Linux ===
 
-        # stow がなければインストール案内
+        # パッケージインストール
+        SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+        if [[ -f "$SCRIPT_DIR/packages-linux.sh" ]]; then
+            echo "Installing packages..."
+            bash "$SCRIPT_DIR/packages-linux.sh"
+        fi
+
+        # stow がなければエラー（packages-linux.sh でインストール済みのはず）
         if ! command -v stow &> /dev/null; then
             echo "Error: stow is not installed."
             echo "Please install stow first:"
@@ -65,9 +72,6 @@ case "$OS" in
         # stow で dotfiles をリンク（karabiner 除外）
         echo "Linking dotfiles with stow..."
         stow -v $COMMON_PACKAGES
-
-        echo ""
-        echo "Note: Run 'packages-linux.sh' to install recommended packages."
         ;;
 
     *)
