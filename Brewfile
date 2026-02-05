@@ -36,6 +36,11 @@ cask "google-japanese-ime"
 cask "visual-studio-code"
 cask "zoom"
 
+# Fonts
+cask "font-plemol-jp"
+cask "font-plemol-jp-hs"
+cask "font-plemol-jp-nf"
+
 # Mac App Store
 mas "Kindle", id: 405399194
 mas "LastPass", id: 926036361
