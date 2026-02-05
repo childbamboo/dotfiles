@@ -11,8 +11,10 @@ dotfiles/
 ├── vim/          # .vimrc - 最小限のVim設定
 ├── starship/     # .config/starship.toml - プロンプト
 ├── claude/       # .claude/CLAUDE.md - Claude個人設定
-├── Brewfile      # Homebrew パッケージ定義
-└── setup.sh      # インストールスクリプト
+├── Brewfile      # Homebrew パッケージ定義（macOS）
+├── setup.sh      # インストールスクリプト（OS 自動判別）
+├── packages-linux.sh  # Linux パッケージインストール
+└── docs/         # ドキュメント
 ```
 
 ## Development Guidelines
@@ -57,8 +59,26 @@ stow -R zsh
 - `Brewfile` - `brew bundle` で一括インストール。renovate.json で自動更新
 - `.config/karabiner/karabiner.json` - Caps Lock → Ctrl 等のキーマッピング
 
+## Platform Support
+
+| 項目 | macOS | Linux |
+|------|-------|-------|
+| setup.sh | Homebrew + brew bundle + stow | stow のみ |
+| パッケージ | Brewfile | packages-linux.sh |
+| karabiner | ✅ stow 対象 | 除外（macOS 専用） |
+| クリップボード | pbcopy | xsel |
+
+### Linux セットアップ
+
+```bash
+sudo apt install stow  # Ubuntu/Debian
+./setup.sh
+./packages-linux.sh
+```
+
 ## Notes
 
 - `bin/` 配下のスクリプトは deprecated（zprezto時代の遺産）
 - フォントは `font-plemonl-jp-*` を使用（cask-fonts tap は廃止済み）
 - 環境依存の設定は `command -v` でチェックしてから適用
+- Linux 対応の詳細は `docs/linux-support-plan.md` を参照

@@ -4,6 +4,11 @@
 export LANG=ja_JP.UTF-8
 export EDITOR=vim
 
+# ~/.local/bin をパスに追加（Claude CLI 等）
+if [[ -d "$HOME/.local/bin" ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
 # ============================================
 # Homebrew
 # ============================================
@@ -28,8 +33,12 @@ if type brew &>/dev/null; then
 fi
 
 # zsh-autosuggestions
-if [[ -f $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+if type brew &>/dev/null && [[ -f $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    # macOS (Homebrew)
     source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    # Linux (apt)
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 # ============================================

@@ -1,4 +1,8 @@
 {
+  "enabledPlugins": {
+    "general@claude-code-marketplace-sample": true
+  },
+  "alwaysThinkingEnabled": true,
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"

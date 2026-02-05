@@ -13,10 +13,31 @@ cd ~/dotfiles
 ./setup.sh
 ```
 
+### macOS
+
 `setup.sh` は以下を実行します：
 - Homebrew のインストール（未インストールの場合）
 - `brew bundle` でパッケージインストール
-- `stow` で dotfiles をホームディレクトリにリンク
+- `stow` で dotfiles をホームディレクトリにリンク（karabiner 含む）
+
+### Linux
+
+`setup.sh` は以下を実行します：
+- `stow` の存在確認（なければインストール方法を案内）
+- `stow` で dotfiles をホームディレクトリにリンク（karabiner 除外）
+
+パッケージのインストールは別スクリプトで行います：
+
+```bash
+# stow を先にインストール
+sudo apt install stow  # Ubuntu/Debian
+
+# dotfiles をリンク
+./setup.sh
+
+# パッケージをインストール
+./packages-linux.sh
+```
 
 ## Structure
 
@@ -27,8 +48,9 @@ dotfiles/
 ├── vim/.vimrc                    # Vim 設定（最小限）
 ├── starship/.config/starship.toml # プロンプト設定
 ├── claude/.claude/CLAUDE.md      # Claude Code 設定
-├── Brewfile                      # Homebrew パッケージ
-├── setup.sh                      # セットアップスクリプト
+├── Brewfile                      # Homebrew パッケージ（macOS）
+├── setup.sh                      # セットアップスクリプト（OS 自動判別）
+├── packages-linux.sh             # Linux パッケージインストール
 └── docs/                         # ドキュメント
 ```
 
@@ -101,6 +123,17 @@ fi
 
 ## Requirements
 
-- macOS or Linux
-- Homebrew（macOS）または対応するパッケージマネージャー
+- macOS or Linux（WSL2 対応）
 - Git
+- **macOS**: Homebrew（setup.sh が自動インストール）
+- **Linux**: stow（apt/pacman/dnf で事前インストール）
+
+## Platform Support
+
+| 機能 | macOS | Linux |
+|------|-------|-------|
+| setup.sh | ✅ Homebrew + stow | ✅ stow のみ |
+| Brewfile | ✅ | - |
+| packages-linux.sh | - | ✅ apt/pacman/dnf |
+| karabiner | ✅ | - (macOS 専用) |
+| クリップボード連携 | ✅ pbcopy | ✅ xsel |
