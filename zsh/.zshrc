@@ -28,8 +28,12 @@ if type brew &>/dev/null; then
 fi
 
 # zsh-autosuggestions
-if [[ -f $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+if type brew &>/dev/null && [[ -f $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    # macOS (Homebrew)
     source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    # Linux (apt)
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 # ============================================

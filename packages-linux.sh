@@ -20,6 +20,7 @@ echo "Detected distro: $DISTRO"
 ESSENTIAL_PACKAGES=(
     stow
     zsh
+    zsh-autosuggestions
     git
     vim
     fzf
