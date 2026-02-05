@@ -1,6 +1,9 @@
 [user]
     name = childbamboo
     email = childbamboo1980@gmail.com
+[credential "https://github.com"]
+    helper =
+    helper = !gh auth git-credential
 [push]
     default = current
 [pull]
