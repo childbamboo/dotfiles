@@ -56,16 +56,25 @@
 
 ## 開発環境
 
-- OS: Windows 11 + WSL 2 (Ubuntu)
-- Docker Desktop (WSL 2 backend) 利用可能
+### 共通
+- Docker Desktop 利用可能
 - Docker Compose v2 利用可能
 - Docker MCP Toolkit 有効（MCP_DOCKER サーバー経由）
+- コードは ~/projects/ 配下に配置する
+
+### WSL 固有（Windows 環境の場合）
+- WSL 2 (Ubuntu) + Docker Desktop WSL 2 backend
+- /mnt/c/ 配下にはコードを置かない（I/O パフォーマンス対策）
+- .wslconfig で memory / processors を制限推奨
+
+### Mac 固有
+- Docker Desktop for Mac
+- リソース制限は Docker Desktop の Settings > Resources で設定
 
 ## 開発ルール
-
 - ローカルの DB やミドルウェアは Docker Compose で管理する
-- コードは WSL ファイルシステム内に配置する（ghq 管理）
-- /mnt/c/ 配下にはコードを置かない（I/O パフォーマンス対策）
+- docker-compose.yml はプロジェクトルートに置く
+- Docker イメージの選定に迷ったら Docker MCP 経由で Docker Hub を検索する
 
 ## Technical Context
 
