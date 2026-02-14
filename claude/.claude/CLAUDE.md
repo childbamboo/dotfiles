@@ -54,6 +54,19 @@
 - WSL パス: `/mnt/c/Users/...` で Windows にアクセス
 - パス区切りは環境に応じて自動判断
 
+## 開発環境
+
+- OS: Windows 11 + WSL 2 (Ubuntu)
+- Docker Desktop (WSL 2 backend) 利用可能
+- Docker Compose v2 利用可能
+- Docker MCP Toolkit 有効（MCP_DOCKER サーバー経由）
+
+## 開発ルール
+
+- ローカルの DB やミドルウェアは Docker Compose で管理する
+- コードは WSL ファイルシステム内に配置する（ghq 管理）
+- /mnt/c/ 配下にはコードを置かない（I/O パフォーマンス対策）
+
 ## Technical Context
 
 ### Current Focus Areas
