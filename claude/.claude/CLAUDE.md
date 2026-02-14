@@ -64,7 +64,7 @@
 ## 開発ルール
 
 - ローカルの DB やミドルウェアは Docker Compose で管理する
-- コードは WSL ファイルシステム内（~/projects/）に配置する
+- コードは WSL ファイルシステム内に配置する（ghq 管理）
 - /mnt/c/ 配下にはコードを置かない（I/O パフォーマンス対策）
 
 ## Technical Context
