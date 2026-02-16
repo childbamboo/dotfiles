@@ -28,6 +28,9 @@ brew "awscli"
 brew "docker"
 brew "heroku/brew/heroku"
 
+# Cloud
+cask "google-cloud-sdk"
+
 # Applications
 cask "authy"
 cask "docker"

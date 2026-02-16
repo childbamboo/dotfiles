@@ -132,6 +132,34 @@ else
     echo "ghq: already installed"
 fi
 
+# Google Cloud CLI
+if ! command -v gcloud &> /dev/null; then
+    echo "Installing Google Cloud CLI..."
+    case "$DISTRO" in
+        ubuntu|debian)
+            curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+            echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list > /dev/null
+            sudo apt update
+            sudo apt install -y google-cloud-cli
+            ;;
+        *)
+            ARCH=$(uname -m)
+            case "$ARCH" in
+                x86_64)  GCLOUD_ARCH="x86_64" ;;
+                aarch64) GCLOUD_ARCH="arm" ;;
+                *)       GCLOUD_ARCH="$ARCH" ;;
+            esac
+            curl -fsSL "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-${GCLOUD_ARCH}.tar.gz" -o /tmp/google-cloud-cli.tar.gz
+            tar -xf /tmp/google-cloud-cli.tar.gz -C ~/
+            ~/google-cloud-sdk/install.sh --quiet --path-update true --command-completion true
+            rm -f /tmp/google-cloud-cli.tar.gz
+            ;;
+    esac
+    echo "gcloud installed. Run 'gcloud init' to configure."
+else
+    echo "gcloud: already installed"
+fi
+
 # === オプション: apt にないツール ===
 
 echo ""
