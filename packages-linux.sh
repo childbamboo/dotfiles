@@ -113,6 +113,25 @@ else
     echo "gh: already installed"
 fi
 
+# ghq (git repository manager)
+if ! command -v ghq &> /dev/null; then
+    echo "Installing ghq..."
+    GHQ_VERSION=$(curl -sS https://api.github.com/repos/x-motemen/ghq/releases/latest | jq -r .tag_name | sed 's/^v//')
+    ARCH=$(uname -m)
+    case "$ARCH" in
+        x86_64)  GHQ_ARCH="amd64" ;;
+        aarch64) GHQ_ARCH="arm64" ;;
+        *)       GHQ_ARCH="$ARCH" ;;
+    esac
+    curl -fsSL "https://github.com/x-motemen/ghq/releases/download/v${GHQ_VERSION}/ghq_linux_${GHQ_ARCH}.zip" -o /tmp/ghq.zip
+    unzip -o /tmp/ghq.zip -d /tmp/ghq
+    install -m 755 /tmp/ghq/ghq_linux_${GHQ_ARCH}/ghq ~/.local/bin/ghq
+    rm -rf /tmp/ghq /tmp/ghq.zip
+    echo "ghq ${GHQ_VERSION} installed to ~/.local/bin/ghq"
+else
+    echo "ghq: already installed"
+fi
+
 # === オプション: apt にないツール ===
 
 echo ""
@@ -121,7 +140,6 @@ echo ""
 echo "The following tools may need manual installation:"
 echo "  - eza: cargo install eza (or check https://eza.rocks)"
 echo "  - bat: may be installed as 'batcat' on Debian/Ubuntu"
-echo "  - ghq: go install github.com/x-motemen/ghq@latest"
 echo ""
 
 # bat の batcat エイリアス対応（Debian/Ubuntu）
