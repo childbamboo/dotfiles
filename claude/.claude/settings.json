@@ -3,6 +3,11 @@
     "general@claude-code-marketplace-sample": true
   },
   "alwaysThinkingEnabled": true,
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "context7",
+    "MCP_DOCKER"
+  ],
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"

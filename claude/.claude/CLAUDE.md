@@ -72,6 +72,7 @@
 - リソース制限は Docker Desktop の Settings > Resources で設定
 
 ## 開発ルール
+- GitHub からのリポジトリ clone には `ghq get` を使う（`git clone` は使わない）
 - ローカルの DB やミドルウェアは Docker Compose で管理する
 - docker-compose.yml はプロジェクトルートに置く
 - Docker イメージの選定に迷ったら Docker MCP 経由で Docker Hub を検索する
