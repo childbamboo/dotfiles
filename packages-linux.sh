@@ -132,6 +132,25 @@ else
     echo "ghq: already installed"
 fi
 
+# doctl (DigitalOcean CLI)
+if ! command -v doctl &> /dev/null; then
+    echo "Installing doctl..."
+    DOCTL_VERSION=$(curl -sS https://api.github.com/repos/digitalocean/doctl/releases/latest | jq -r .tag_name | sed 's/^v//')
+    ARCH=$(uname -m)
+    case "$ARCH" in
+        x86_64)  DOCTL_ARCH="amd64" ;;
+        aarch64) DOCTL_ARCH="arm64" ;;
+        *)       DOCTL_ARCH="$ARCH" ;;
+    esac
+    curl -fsSL "https://github.com/digitalocean/doctl/releases/download/v${DOCTL_VERSION}/doctl-${DOCTL_VERSION}-linux-${DOCTL_ARCH}.tar.gz" -o /tmp/doctl.tar.gz
+    tar xf /tmp/doctl.tar.gz -C /tmp
+    install -m 755 /tmp/doctl ~/.local/bin/doctl
+    rm -f /tmp/doctl.tar.gz /tmp/doctl
+    echo "doctl ${DOCTL_VERSION} installed to ~/.local/bin/doctl"
+else
+    echo "doctl: already installed"
+fi
+
 # Google Cloud CLI
 if ! command -v gcloud &> /dev/null; then
     echo "Installing Google Cloud CLI..."
