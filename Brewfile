@@ -29,6 +29,7 @@ brew "docker"
 brew "heroku/brew/heroku"
 
 # Cloud
+brew "doctl"
 cask "google-cloud-sdk"
 
 # Applications
