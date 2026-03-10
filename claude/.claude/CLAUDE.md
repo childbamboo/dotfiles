@@ -155,6 +155,99 @@ git worktree add ../project-fix-name -b fix/issue-description
 - テスト: 単体テストを基本とする
 - コメント: Why を説明、What は自明なコードで
 
+## ドキュメント構成規約
+
+### docs/spec/
+- 現行の最新仕様書を配置する（Single Source of Truth）
+- ファイル名: `<domain>.md`（例: `auth.md`, `api.md`）
+- 仕様変更を伴うコミットは、実装と同一コミットで spec を更新する（先行・後追い不可）
+
+### docs/rfcs/
+案件単位でフォルダを作成し、要件・設計・テスト基準を管理する。
+
+#### フォルダ命名規則
+```
+docs/rfcs/YYYYMMDD-HHMMSS-<slug>/
+```
+- プレフィックスは **作成日時（ローカル時刻）** を使用
+- `<slug>` はケバブケース・英小文字（例: `eval-pipeline-otlp`）
+- 例: `docs/rfcs/20250310-143022-eval-pipeline-otlp/`
+
+新規RFCフォルダは以下のコマンドで作成する:
+```bash
+mkdir -p "docs/rfcs/$(date +%Y%m%d-%H%M%S)-<slug>"
+```
+
+#### 各RFCフォルダの必須ファイル
+
+| ファイル | 内容 |
+|---|---|
+| `requirements.md` | 要件・受け入れ基準（EARS形式） |
+| `design.md` | 設計書（アーキテクチャ・インターフェース定義） |
+
+#### requirements.md のテンプレート
+
+~~~markdown
+# 要件: <案件名>
+
+## 概要
+<!-- 1〜3文で何を・なぜ作るかを説明する -->
+
+## 背景・目的
+<!-- 課題・ビジネス的文脈・解決したいペインを記述 -->
+
+## スコープ
+### In Scope
+-
+### Out of Scope
+-
+
+## ステークホルダー
+| 役割 | 担当 | 関与 |
+|------|------|------|
+
+## 前提条件・制約
+-
+
+## 受け入れ基準
+<!-- EARS（Easy Approach to Requirements Syntax）で記述する -->
+<!-- チェックボックスはテスト完了時に [x] にする。1基準 = 1テストケース -->
+<!-- 曖昧な表現（「適切に」「速く」など）禁止。数値・状態で明確化する -->
+
+### <機能・コンポーネント名>
+
+- [ ] [Ubiquitous]    The <s> shall <action>.
+- [ ] [Event-driven]  When <trigger>, the <s> shall <action>.
+- [ ] [Unwanted]      If <condition>, the <s> shall <action>.
+- [ ] [State-driven]  While <state>, the <s> shall <action>.
+- [ ] [Optional]      Where <feature is included>, the <s> shall <action>.
+
+## 非機能要件
+<!-- パフォーマンス・セキュリティ・可用性など数値で明記 -->
+-
+
+## 依存関係
+<!-- 他RFC・外部サービス・未解決の前提 -->
+-
+
+## 未解決事項 (Open Questions)
+- [ ]
+~~~
+
+#### 開発〜テストのフロー
+
+```
+1. RFC フォルダ作成（date プレフィックス付き）
+2. requirements.md をテンプレートから起票し、受け入れ基準を定義
+3. design.md に設計を記述
+4. 実装
+5. 実装完了後、requirements.md の各基準を手動 or 自動テストで検証
+6. 全チェックボックスが [x] になったら RFC をクローズ
+```
+
+実装開始前に必ず requirements.md の受け入れ基準が揃っていることを確認する。
+基準が未定義のまま実装しない。
+
 ## Don't
 
 - 過度に丁寧な前置きや締めくくり
