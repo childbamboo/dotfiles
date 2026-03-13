@@ -163,3 +163,17 @@ fi
 if [[ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]]; then
     source "$HOME/google-cloud-sdk/completion.zsh.inc"
 fi
+
+# ============================================
+# 1Password SSH Agent bridge (WSL2 only)
+# ============================================
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+    export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+    NPIPERELAY="/mnt/c/Users/keita/AppData/Local/Microsoft/WinGet/Packages/jstarks.npiperelay_Microsoft.Winget.Source_8wekyb3d8bbwe/npiperelay.exe"
+    if ! ss -a | grep -q "$SSH_AUTH_SOCK"; then
+        rm -f "$SSH_AUTH_SOCK"
+        mkdir -p "$(dirname "$SSH_AUTH_SOCK")"
+        (setsid socat UNIX-LISTEN:"$SSH_AUTH_SOCK",fork \
+            EXEC:"$NPIPERELAY -ei -s //./pipe/openssh-ssh-agent",nofork &)
+    fi
+fi
