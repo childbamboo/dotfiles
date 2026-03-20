@@ -165,9 +165,13 @@ if [[ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]]; then
 fi
 
 # ============================================
-# 1Password SSH Agent bridge (WSL2 only)
+# 1Password integration (WSL2 only)
 # ============================================
 if [[ -n "$WSL_DISTRO_NAME" ]]; then
+    # CLI App Integration: use Windows op.exe for biometric unlock
+    alias op='op.exe'
+
+    # SSH Agent bridge
     export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
     NPIPERELAY="/mnt/c/Users/keita/AppData/Local/Microsoft/WinGet/Packages/jstarks.npiperelay_Microsoft.Winget.Source_8wekyb3d8bbwe/npiperelay.exe"
     if ! ss -a | grep -q "$SSH_AUTH_SOCK"; then
