@@ -171,6 +171,14 @@ if [[ -n "$WSL_DISTRO_NAME" ]]; then
     # CLI App Integration: use Windows op.exe for biometric unlock
     alias op='op.exe'
 
+    # Load 1Password environment variables on first prompt
+    autoload -Uz add-zsh-hook
+    function _load_op_env_once() {
+        eval "$(op environment read jcufd7xs4jtj2pnwkk23yah2eu | sed 's/^/export /')"
+        add-zsh-hook -d precmd _load_op_env_once
+    }
+    add-zsh-hook precmd _load_op_env_once
+
     # SSH Agent bridge
     export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
     NPIPERELAY="/mnt/c/Users/keita/AppData/Local/Microsoft/WinGet/Packages/jstarks.npiperelay_Microsoft.Winget.Source_8wekyb3d8bbwe/npiperelay.exe"
